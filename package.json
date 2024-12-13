@@ -5,8 +5,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["javascript", "typescript", "nodejs", "jest"],
+  "keywords": [
+    "javascript",
+    "typescript",
+    "nodejs",
+    "jest"
+  ],
   "author": "Bruno Barreira",
   "license": "ISC",
-  "description": "Backend api for DTI digital technical assesment. Manage photo albums and users."
+  "description": "Backend api for DTI digital technical assesment. Manage photo albums and users.",
+  "devDependencies": {
+    "git-commit-msg-linter": "^5.0.8"
+  }
 }
