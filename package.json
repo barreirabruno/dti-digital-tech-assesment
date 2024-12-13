@@ -1,0 +1,12 @@
+{
+  "name": "dti_technical_assesment",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["javascript", "typescript", "nodejs", "jest"],
+  "author": "Bruno Barreira",
+  "license": "ISC",
+  "description": "Backend api for DTI digital technical assesment. Manage photo albums and users."
+}
