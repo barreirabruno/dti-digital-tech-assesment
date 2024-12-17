@@ -34,7 +34,7 @@ class StubjsonPlaceholderUser implements LoadJSONPlaceholderUsersGateway {
 }
 
 type Setup = (jsonPlaceholderUser: LoadJSONPlaceholderUsersGateway, userPersistenceRepository: LoadUsersRepository ) => LoadJSONPlaceholderUsers
-type Output = { id?: number, username?: string, email?: string }[]
+type Output = { id?: number, username?: string, email?: string }[] | Error
 export type LoadJSONPlaceholderUsers = () => Promise<Output>
 
 const setupLoadUsers: Setup = (jsonPlaceholderUser, userPersistenceRepository) => {
@@ -44,7 +44,7 @@ const setupLoadUsers: Setup = (jsonPlaceholderUser, userPersistenceRepository) =
       return fetchExternalApi
     }
     const fetchUsersDatabase = await userPersistenceRepository.all()
-    return fetchUsersDatabase 
+    return fetchUsersDatabase
   }
 }
 
@@ -83,5 +83,13 @@ describe('Load all users usecase', () => {
 
     expect(spyUserPersistenceRepository).not.toHaveBeenCalled()
   })
-  test.todo('ensure it throws when httpClient and database fails')
+  test('ensure it rethrows if database throws', async () => {
+    jest.spyOn(userPersistenceRepository, 'all').mockRejectedValueOnce(new Error('Some database error'))
+    const spyJSONPlaceholderGateway = jest.spyOn(jsonPlaceholder, 'all').mockResolvedValueOnce([])
+    await expect(sut()).rejects.toThrow()
+
+    expect(spyJSONPlaceholderGateway).toHaveBeenCalled()
+    expect(spyJSONPlaceholderGateway).toHaveBeenCalledTimes(1)
+    expect(spyJSONPlaceholderGateway).toHaveBeenCalledWith()
+  })
 })
