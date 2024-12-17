@@ -1,6 +1,6 @@
 import type UserDomainEntity from '@/domain/entities/user.domain.entity'
 
-export default interface LoadUsersUseCase {
+export default interface LoadUsersRepository {
   all: () => Promise<LoadUsersOutput>
 }
 
