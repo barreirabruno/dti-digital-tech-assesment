@@ -4,4 +4,4 @@ import type UserDomainEntity from '@/domain/entities/user.domain.entity'
 export interface LoadJSONPlaceholderUsersGateway {
   all: () => Promise<LoadJSONPlaceholderUsersOutput>
 }
-export type LoadJSONPlaceholderUsersOutput = UserDomainEntity[]
+export type LoadJSONPlaceholderUsersOutput = UserDomainEntity[] | undefined
