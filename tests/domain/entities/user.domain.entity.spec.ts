@@ -22,7 +22,16 @@ class UserDomainEntity {
 describe('User domain entity', () => {
   let sut: UserDomainEntity
 
-  test.todo('ensure it successfully instantiate a User model only with username')
+  test('ensure it successfully instantiate a User model only with username', () => {
+    const params = {
+      username: 'any_valid_username',
+    }
+    sut = new UserDomainEntity(params)
+    expect(sut).toBeInstanceOf(UserDomainEntity)
+    expect(sut.id).toBeUndefined()
+    expect(sut.username).toEqual(params.username)
+    expect(sut.email).toBeUndefined()
+  })
   test('ensure it successfully instantiate a User model with all properties', () => {
     const params = {
       id: 1,
