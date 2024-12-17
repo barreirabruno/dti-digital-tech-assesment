@@ -1,23 +1,5 @@
 import { describe, test, expect } from '@jest/globals'
-
-export type UserDomainData = {
-  id?: number
-  username?: string
-  email?: string
-}
-
-class UserDomainEntity {
-
-  id?: number
-  username?: string
-  email?: string
-  
-  constructor (input: UserDomainData ) {
-    this.id = input.id
-    this.username = input.username
-    this.email = input.email
-  }
-}
+import UserDomainEntity from '@/domain/entities/user.domain.entity'
 
 describe('User domain entity', () => {
   let sut: UserDomainEntity
