@@ -66,6 +66,15 @@ describe('Axios http client', () => {
         any_property: 'any_valid_value'
       })
     })
-    test.todo('should rethrow if get throws')
+    test('should rethrow if get throws', async () => {
+      const expected = new Error('http_error')
+      fakeAxios.get.mockRejectedValueOnce(expected)
+      const params = {
+        url: 'http://any_url.com.br',
+        params: {}
+      }
+      const promise = sut.get(params)
+      await expect(promise).rejects.toThrow(expected)
+    })
   })
 })
