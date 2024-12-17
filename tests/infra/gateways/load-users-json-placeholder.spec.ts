@@ -82,4 +82,9 @@ describe('Load users from JSON Placeholder api', () => {
       ])
     )
   })
+  test('should return undefined if HTTPGetClient throws', async () => {
+    httpClient.get.mockReset().mockRejectedValueOnce(new Error('json_placeholder error'))
+    const result = await sut.all()
+    expect(result).toBeUndefined()
+  })
 })
