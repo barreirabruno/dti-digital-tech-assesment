@@ -20,6 +20,15 @@ Backend implementation for dti-digital technical challenge, rest api managing us
 
 ## Architecture
 
+### Cloud
+
+The cloud architecture relies on AWS.</br>
+Front-end will be hosted in AWS Amplify communicating with backend services hosted in AWS EC2 via API Gateway.</br>
+Front-end is responsible to validate the image size and resize it when needit, once this is not a real life application the maximum size of image allowed to upload is 5MB</br>
+All APIS are stored in EC2 instance connected directly to the API Gateway, one of its endpoint upload the image to S3 and send metadata to a queue.</br>
+The metadata pushed to the queue holds the image link, title(optinal), description(optional) and once the service worker gets this metadata from queue a relational database is written to keep the data stored.</br>
+![AWS Cloud diagram](./diagrams//cloud-archtecture.png)
+
 ## Code design
 
 ## Extra
