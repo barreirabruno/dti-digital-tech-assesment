@@ -59,7 +59,19 @@ describe('Load all users usecase', () => {
     sut = setupLoadUsers(jsonPlaceholder, userPersistenceRepository)
   })
 
-  test.todo('ensure it calls database when httpClient fails to fetch users')
+  test('ensure it calls database when httpClient fails to fetch users', async () => {
+    const spyUserPersistenceRepository = jest.spyOn(userPersistenceRepository, 'all')
+    const spyJSONPlaceholderGateway = jest.spyOn(jsonPlaceholder, 'all').mockResolvedValueOnce([])
+    await sut()
+
+    expect(spyJSONPlaceholderGateway).toHaveBeenCalled()
+    expect(spyJSONPlaceholderGateway).toHaveBeenCalledTimes(1)
+    expect(spyJSONPlaceholderGateway).toHaveBeenCalledWith()
+
+    expect(spyUserPersistenceRepository).toHaveBeenCalled()
+    expect(spyUserPersistenceRepository).toHaveBeenCalledTimes(1)
+    expect(spyUserPersistenceRepository).toHaveBeenCalledWith()
+  })
   test('ensure it calls httpClient to fetch users successfully', async () => {
     const spyUserPersistenceRepository = jest.spyOn(userPersistenceRepository, 'all')
     const spyJSONPlaceholderGateway = jest.spyOn(jsonPlaceholder, 'all')
