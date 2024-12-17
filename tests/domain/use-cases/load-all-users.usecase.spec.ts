@@ -1,11 +1,9 @@
 import { describe, test, expect, jest } from '@jest/globals'
 import UserDomainEntity from '@/domain/entities/user.domain.entity'
-
-// domain/contracts/repo
-export default interface LoadUsersRepository {
-  all: () => Promise<LoadUsersRepositoryOutput>
-}
-export type LoadUsersRepositoryOutput = UserDomainEntity[]
+import type LoadUsersRepository from '@/domain/contracts/repos/load-users.repo'
+import type { LoadJSONPlaceholderUsersGateway, LoadJSONPlaceholderUsersOutput } from '@/domain/contracts/gateways/json-placeholder-users.gateway'
+import type { LoadJSONPlaceholderUsers} from '@/domain/use-cases/load-users.usecase'
+import { setupLoadUsers } from '@/domain/use-cases/load-users.usecase'
 
 class StubUserPersistenceRepository implements LoadUsersRepository {
   async all (): Promise<LoadJSONPlaceholderUsersOutput> {
@@ -14,12 +12,6 @@ class StubUserPersistenceRepository implements LoadUsersRepository {
     ]
   }
 }
-
-// domain/contracts/gateway
-export interface LoadJSONPlaceholderUsersGateway {
-  all: () => Promise<LoadJSONPlaceholderUsersOutput>
-}
-export type LoadJSONPlaceholderUsersOutput = UserDomainEntity[]
 
 class StubjsonPlaceholderUser implements LoadJSONPlaceholderUsersGateway {
   async all (): Promise<LoadJSONPlaceholderUsersOutput> {
@@ -30,21 +22,6 @@ class StubjsonPlaceholderUser implements LoadJSONPlaceholderUsersGateway {
         email: 'any@email.com.br'
       }),
     ]
-  }
-}
-
-type Setup = (jsonPlaceholderUser: LoadJSONPlaceholderUsersGateway, userPersistenceRepository: LoadUsersRepository ) => LoadJSONPlaceholderUsers
-type Output = { id?: number, username?: string, email?: string }[] | Error
-export type LoadJSONPlaceholderUsers = () => Promise<Output>
-
-const setupLoadUsers: Setup = (jsonPlaceholderUser, userPersistenceRepository) => {
-  return async () => {
-    const fetchExternalApi = await jsonPlaceholderUser.all()
-    if(fetchExternalApi.length !== 0) {
-      return fetchExternalApi
-    }
-    const fetchUsersDatabase = await userPersistenceRepository.all()
-    return fetchUsersDatabase
   }
 }
 
