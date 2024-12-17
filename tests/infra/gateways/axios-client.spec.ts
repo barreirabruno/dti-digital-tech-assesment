@@ -19,6 +19,9 @@ class AxiosHttpClient implements HttpGetClient {
   }
 }
 
+interface AnyUnitTestType {
+  any_property: string;
+}
 
 describe('Axios http client', () => {
   let fakeAxios: jest.Mocked<typeof axios>
@@ -40,9 +43,6 @@ describe('Axios http client', () => {
 
   describe('get', () => {
     test('should call get with correct input', async () => {
-      interface AnyUnitTestType {
-        any_property: string;
-      }
       const spyAxios = jest.spyOn(sut, 'get')
       const params = {
         url: 'http://any_url.com.br',
@@ -56,7 +56,16 @@ describe('Axios http client', () => {
         params: params.params
       })
     })
-    test.todo('should return data on success')
+    test('should return data on success', async () => {
+      const params = {
+        url: 'http://any_url.com.br',
+        params: {}
+      }
+      const result = await sut.get<AnyUnitTestType>(params)
+      expect(result).toMatchObject({
+        any_property: 'any_valid_value'
+      })
+    })
     test.todo('should rethrow if get throws')
   })
 })
